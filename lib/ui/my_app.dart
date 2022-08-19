@@ -3,25 +3,34 @@ import 'package:get/get.dart';
 import '../utils/color_utils.dart';
 import 'pages/color_selection_page.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
   // vamos a convertir este widget a uno con estado
-  // el estado va a ser el color que se aplica en el tema
-
+  String theColor = '5F7161';
   @override
   Widget build(BuildContext context) {
     // vamos a usar GetMaterialApp para pdoer usar un diálogo sin context
     return GetMaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,
-        primarySwatch: ColorUtils.CreateMaterialColor('5F7161'),
+        primarySwatch: ColorUtils.CreateMaterialColor(theColor),
       ),
       debugShowCheckedModeBanner: false,
       home:
-          const ColorSelectionPage(), // vamos a pasarle updatePrimarySwatchColor como función
+          ColorSelectionPage(
+            callback: updatePrimarySwatchColor,
+          ), // vamos a pasarle updatePrimarySwatchColor como función
     );
   }
 
-  void updatePrimarySwatchColor(String value) {}
+  void updatePrimarySwatchColor(String value) {
+    setState(() {
+      theColor = value;
+    });
+  }
 }
